@@ -16,6 +16,9 @@
                         { action: "Buy flowers", complete: false },
                         { action: "Call family", complete: false }
                     ];
+                    $scope.viewFile = function(){
+                        return $scope.showList?"list.html":"table.html";
+                    };
                 })
     </script>
     <style>
@@ -27,8 +30,16 @@
     <div id="todoPanel" class="panel" ng-controller="defaultCtrl">
         <h3 class="panel-header">To Do List</h3>
         <div>There are {{todos.length}} items</div>
-
-        <table class="table">
+        <div class="well">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="showList">
+                    Use the list view
+                </label>
+            </div>
+        </div>
+        <ng-include src="viewFile()"></ng-include>
+<!--        <table class="table">
             <thead>
                 <tr>
                     <th>#</th>
@@ -37,17 +48,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in todos" ng-class="$odd ? 'odd':'even'">
-<!--                    <td>{{item.action}}</td>
-                    <td>{{item.complete}}</td>-->
-                    <!--<td ng-repeat="(key,value) in item">{{key}}={{value}}</td>-->
-                    <td>{{$index +1 }}</td>
-                   <!-- <td ng-repeat="param in item">{{param}}</td>-->
-                    <td>{{item.action}}</td>
-                    <td><span ng-if="$first || $last">{{item.complete}}</span></td>
-                </tr>
+            <tr ng-repeat-start="item in todos">
+                <td>This is item {{$index}}</td>
+            </tr>
+            <tr>
+                <td>The action is: {{item.action}}</td>
+            </tr>
+            <tr ng-repeat-end>
+                <td>Item {{$index}} is {{item.complete? '' : "not "}} complete</td>
+            </tr>
             </tbody>
-        </table>
+        </table>-->
 <!--        <div class="well">
             <div>The first item is :{{todos[0].action}}</div>
         </div>
