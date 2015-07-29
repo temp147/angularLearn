@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html  ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Directives</title>
+    <script src="../js/angular.js"></script>
+    <link href="../css/bootstrap.css" rel="stylesheet"/>
+    <link href="../css/bootstrap-theme.css" rel="stylesheet"/>
+    <script>
+        angular.module("exampleApp",[])
+                .controller("defaultCtrl",function($scope){
+                    $scope.todos =[
+                        { action: "Get groceries", complete: false },
+                        { action: "Call plumber", complete: false },
+                        { action: "Buy running shoes", complete: true },
+                        { action: "Buy flowers", complete: false },
+                        { action: "Call family", complete: false }
+                    ];
+                })
+    </script>
+    <style>
+        .odd{background-color: lightcoral}
+        .even{background-color: lavenDerblush}
+    </style>
+</head>
+<body>
+    <div id="todoPanel" class="panel" ng-controller="defaultCtrl">
+        <h3 class="panel-header">To Do List</h3>
+        <div>There are {{todos.length}} items</div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Action</th>
+                    <th>Done</th>\
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in todos" ng-class="$odd ? 'odd':'even'">
+<!--                    <td>{{item.action}}</td>
+                    <td>{{item.complete}}</td>-->
+                    <!--<td ng-repeat="(key,value) in item">{{key}}={{value}}</td>-->
+                    <td>{{$index +1 }}</td>
+                   <!-- <td ng-repeat="param in item">{{param}}</td>-->
+                    <td>{{item.action}}</td>
+                    <td><span ng-if="$first || $last">{{item.complete}}</span></td>
+                </tr>
+            </tbody>
+        </table>
+<!--        <div class="well">
+            <div>The first item is :{{todos[0].action}}</div>
+        </div>
+        <div class="form-group well">
+            <label for="firstItem"> Set First Item:</label>
+            <input name="firstItem" class="form-control" ng-model="todos[0].action"/>
+        </div>-->
+        <!--Data items will go here..-->
+    </div>
+</body>
+</html>
