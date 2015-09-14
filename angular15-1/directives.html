@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Directives</title>
+</head>
+    <title>Directives</title>
+    <script src="../js/angular.js"></script>
+    <link href="../css/bootstrap.css" rel="stylesheet"/>
+    <link href="../css/bootstrap-theme.css" rel="stylesheet"/>
+    <script>
+        angular.module("exampleApp",[])
+                .directive("unorderedList",function(){
+                    return function(scope,element,attrs){
+                        //implementation code will go here
+                        var data = scope[attrs["unorderedList"]];
+                        var properExpression = attrs["listProperty"];
+                        if(angular.isArray(data)){
+                            var listElm = angular.element("<ul>");
+                            for(var i=0; i < data.length;i++){
+                                (function(){
+                                    console.log("Item:"+data[i].price);
+//                                listElm.append(angular.element('<li>').text(scope.$eval(propertyName,data[i])));
+                                    var itemElement = angular.element("<li>");
+                                    listElm.append(itemElement);
+                                    var index=i;
+                                    var watcherFn = function(watchScope){
+                                        return watchScope.$eval(properExpression,data[index])
+                                    };
+                                    scope.$watch(watcherFn,function(newValue,oldValue){
+                                        itemElement.text(newValue);
+                                    });
+                                }());
+
+                            }
+                            element.append(listElm);
+                        }
+                    }
+                })
+                .controller("defaultCtrl",function($scope){
+                    $scope.products = [
+                        { name: "Apples", category: "Fruit", price: 1.20, expiry: 10 },
+                        { name: "Bananas", category: "Fruit", price: 2.42, expiry: 7 },
+                        { name: "Pears", category: "Fruit", price: 2.02, expiry: 6 }
+                    ];
+
+                    $scope.incrementPrices = function(){
+                        for(var i= 0; i< $scope.products.length; i++){
+                            $scope.products[i].price++;
+                            console.log($scope.products[i].price);
+                        }
+
+                    }
+                });
+    </script>
+<body ng-controller="defaultCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Products</h3>
+        </div>
+        <div class="panel-body">
+            <button class="btn btn-primary" ng-click="incrementPrices()">
+                Change Prices
+            </button>
+        </div>
+        <div class="panel-body">
+            Content will go here
+            <div unordered-list="products" list-Property="price | currency "></div>
+        </div>
+    </div>
+
+</body>
+</html>
